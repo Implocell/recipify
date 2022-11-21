@@ -1,5 +1,5 @@
 import { addDoc, collection } from "firebase/firestore";
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Button } from "../../components/button";
 import { Input } from "../../components/input";
 import { AuthCtx } from "../../context/AuthContext";
@@ -12,7 +12,8 @@ export const AddRecipe = () => {
 
 	const { getUser } = useContext(AuthCtx);
 
-	const handleClick = async () => {
+	const handleClick = async (e: React.SyntheticEvent) => {
+		e.preventDefault();
 		const userEmail = getUser();
 
 		if (!userEmail) {
@@ -20,7 +21,7 @@ export const AddRecipe = () => {
 		}
 
 		try {
-			const docRef = await addDoc(collection(db, "recipes"), {
+			await addDoc(collection(db, "recipes"), {
 				link: link,
 				name: name,
 				owner: userEmail,
@@ -28,20 +29,26 @@ export const AddRecipe = () => {
 			});
 		} catch (e) {
 			console.error("Error adding document: ", e);
+		} finally {
+			setRating("");
+			setLink("");
+			setName("");
 		}
 	};
 
 	return (
 		<div>
-			<Input name="Lenke" setter={setLink} value={link} />
-			<Input name="Navn" setter={setName} value={name} />
-			<Input
-				name="Rating"
-				setter={setRating}
-				value={rating}
-				type="number"
-			/>
-			<Button name="Send inn" onClick={handleClick} />
+			<form onSubmit={handleClick}>
+				<Input name="Lenke" setter={setLink} value={link} />
+				<Input name="Navn" setter={setName} value={name} />
+				<Input
+					name="Rating"
+					setter={setRating}
+					value={rating}
+					type="number"
+				/>
+				<Button name="Send inn" type="submit" />
+			</form>
 		</div>
 	);
 };
