@@ -2,7 +2,8 @@ import { useContext } from "react";
 import { Login } from "./containers/login";
 import { Recipes } from "./containers/recipes";
 import { AuthCtx } from "./context/AuthContext";
-import { AddRecipe } from "./containers/add";
+import { Header } from "./fragments/header";
+
 function App() {
 	const { isAuth } = useContext(AuthCtx);
 
@@ -16,7 +17,7 @@ function App() {
 
 	return (
 		<div className="App">
-			<AddRecipe />
+			<Header />
 			<Recipes />
 		</div>
 	);

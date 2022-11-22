@@ -1,11 +1,18 @@
 import { addDoc, collection } from "firebase/firestore";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, Dispatch, SetStateAction } from "react";
 import { Button } from "../../components/button";
 import { Input } from "../../components/input";
+import { Modal } from "../../components/modal";
 import { AuthCtx } from "../../context/AuthContext";
 import { db } from "../../firebase";
 
-export const AddRecipe = () => {
+export const AddRecipe = ({
+	isOpen,
+	setIsOpen,
+}: {
+	isOpen: boolean;
+	setIsOpen: Dispatch<SetStateAction<boolean>>;
+}) => {
 	const [rating, setRating] = useState("");
 	const [link, setLink] = useState("");
 	const [name, setName] = useState("");
@@ -33,11 +40,17 @@ export const AddRecipe = () => {
 			setRating("");
 			setLink("");
 			setName("");
+			setIsOpen(false);
 		}
 	};
 
 	return (
-		<div>
+		<Modal
+			handleClose={() => {
+				setIsOpen((last) => !last);
+			}}
+			isOpen={isOpen}
+		>
 			<form onSubmit={handleClick}>
 				<Input name="Lenke" setter={setLink} value={link} />
 				<Input name="Navn" setter={setName} value={name} />
@@ -49,6 +62,6 @@ export const AddRecipe = () => {
 				/>
 				<Button name="Send inn" type="submit" />
 			</form>
-		</div>
+		</Modal>
 	);
 };
