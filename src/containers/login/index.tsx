@@ -2,6 +2,7 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { Button } from "../../components/button";
 import { Input } from "../../components/input";
+import "./styles.scss";
 
 export const Login = () => {
 	const auth = getAuth();
@@ -9,7 +10,7 @@ export const Login = () => {
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState("");
 
-	const onClick = (e: React.SyntheticEvent) => {
+	const handleSubmit = (e: React.SyntheticEvent) => {
 		e.preventDefault();
 
 		signInWithEmailAndPassword(auth, email, password)
@@ -25,7 +26,7 @@ export const Login = () => {
 	};
 
 	return (
-		<div>
+		<form onSubmit={handleSubmit} className="login-form">
 			<Input name="Email" setter={setEmail} value={email} />
 			<Input
 				name="Password"
@@ -33,7 +34,7 @@ export const Login = () => {
 				value={password}
 				type="password"
 			/>
-			<Button name="Submit" onClick={onClick} />
-		</div>
+			<Button name="Submit" type="submit" />
+		</form>
 	);
 };

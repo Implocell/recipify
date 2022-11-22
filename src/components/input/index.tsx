@@ -9,15 +9,13 @@ interface Props {
 
 export const Input = ({ name, value, setter, type = "text" }: Props) => {
 	return (
-		<div>
-			<label>
-				{name}:
-				<input
-					type={type}
-					onChange={(v) => setter(v.target.value)}
-					value={value}
-				/>
-			</label>
-		</div>
+		<label>
+			{name}:
+			<input
+				type={type}
+				onChange={(v) => setter(v.target.value)}
+				value={value}
+			/>
+		</label>
 	);
 };
